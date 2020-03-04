@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: a531f9a01edae70438bb568e141ef217
+timeCreated: 1529664505
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: ATypewriterForMe
+  fontNames:
+  - ATypewriterForMe
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

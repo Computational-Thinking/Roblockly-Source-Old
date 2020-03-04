@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: adc3471dd31e5184d8d0c6955b85ddb8
+timeCreated: 1529663350
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Camping Holiday DEMO
+  fontNames:
+  - Camping Holiday DEMO
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
