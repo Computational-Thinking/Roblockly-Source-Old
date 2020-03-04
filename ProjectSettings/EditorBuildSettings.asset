@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu_S.unity
+    guid: 5c6ecc2ebd89d8d4688737312a3eaaf8
+  - enabled: 1
+    path: Assets/Scenes/CreationSq.unity
+    guid: b50723384fa0ff949b8f830cc6740571
+  - enabled: 0
+    path: Assets/Scenes/Share Robot.unity
+    guid: ddfb9b1111ae25d40827badf46a5f966
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/Scenes/Simulator - US.unity
+    guid: 3fd993d16f78ec24ba35708a0f1477bd
+  - enabled: 1
+    path: Assets/Scenes/Simulator - IR.unity
+    guid: bc7574e0a21eb6a4193d5d8d80a84393
+  - enabled: 1
+    path: Assets/Scenes/Simulator - Touch.unity
+    guid: ea007e55bb509ca49a3484259c51fced
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  m_configObjects: {}

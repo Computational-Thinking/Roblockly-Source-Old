@@ -1,0 +1,18 @@
+{    
+    "MOVE": "Mover",
+
+    "MOVE_ROBOT": "Mover robot",
+    "MOVE_DISTANCE": "metros",
+
+    "MOVE_ROBOT_FORWARD": "hacia delante",
+    "MOVE_ROBOT_BACKWARD": "hacia atrás",
+    
+
+    "TURN": "Girar",
+
+    "TURN_ROBOT": "Girar robot",
+    "TURN_ANGLE": "grados",
+
+    "TURN_ROBOT_RIGHT": "hacia la derecha",
+    "TURN_ROBOT_LEFT": "hacia la izquierda"
+}
