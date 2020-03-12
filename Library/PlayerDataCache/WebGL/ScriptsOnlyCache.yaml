@@ -67,8 +67,6 @@ ScriptsOnlyBuild:
     - TMPro.TMP_SubMeshUI
     - TMPro.TextMeshPro
     - TMPro.TextMeshProUGUI
-    UnityEditor.TestRunner.dll:
-    - UnityEditor.TestTools.TestRunner.TestListCacheData
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
@@ -2165,4 +2163,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/CreationSq.unity
   - Assets/Scenes/Simulator - IR.unity
   - Assets/Scenes/Simulator - Touch.unity
-  playerPath: C:/Users/Rafael/Desktop/UblocklyRobot/webGLbuild
+  playerPath: C:/Users/Rafael/Documents/UblocklyRobot/webGL_build
