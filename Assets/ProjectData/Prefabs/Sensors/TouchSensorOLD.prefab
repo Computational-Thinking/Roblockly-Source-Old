@@ -495,8 +495,9 @@ GameObject:
   - component: {fileID: 135450335464347566}
   - component: {fileID: 136583119263287220}
   - component: {fileID: 54009654541158538}
+  - component: {fileID: 6345151632141901028}
   m_Layer: 0
-  m_Name: TouchSensor
+  m_Name: TouchSensorOLD
   m_TagString: Touch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -540,7 +541,7 @@ MonoBehaviour:
   touchSensor: {fileID: 1497731212136896}
   baseRobot: {fileID: 0}
   info: {fileID: 0}
-  sensorname: {fileID: 15578130832963709}
+  sensorname: {fileID: 0}
 --- !u!135 &135450335464347566
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -584,6 +585,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6345151632141901028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497731212136896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8148045792b66d0458fe8d109380102a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 0}
 --- !u!1 &1687408642811000
 GameObject:
   m_ObjectHideFlags: 0

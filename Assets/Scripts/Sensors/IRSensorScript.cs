@@ -10,8 +10,11 @@ public class IRSensorScript : MonoBehaviour {
 	public GameObject baseRobot;
 	private float largoBase;
 	private float anchoBase;
+    private float escalaRobot;
+    private float largoRealRobot = 0.5f;
+    private float scaleFactor;
 
-	public InformationRobot info;
+    public InformationRobot info;
 	private GameObject isOk;
 
 	public float distanceSensor = 0.0f;
@@ -44,17 +47,21 @@ public class IRSensorScript : MonoBehaviour {
 			//precisionInput = GameObject.Find ("SliderPrecisionIR").GetComponent<Slider>();
 
 
-			rango.minValue = 0.1f*12.5f;
-			rango.maxValue = 0.8f*12*5f;
+			rango.minValue = 0.1f;
+			rango.maxValue = 0.8f;
 
-			//precisionInput.minValue = 0;
-			//precisionInput.maxValue = 100;
+            //precisionInput.minValue = 0;
+            //precisionInput.maxValue = 100;
 
-			largoBase = baseRobot.transform.localScale.z;
-			anchoBase = baseRobot.transform.localScale.x;
 
-			/////Cambiar nombre a los sensoresIR que se instancian/////
-			int count = 0;
+            //escalaRobot = gameObject.transform.parent.parent.transform.localScale.x;
+            escalaRobot = baseRobot.transform.parent.transform.localScale.x;
+            largoBase = baseRobot.transform.localScale.z;
+            anchoBase = baseRobot.transform.localScale.x;
+            scaleFactor = escalaRobot * largoBase / largoRealRobot;
+
+            /////Cambiar nombre a los sensoresIR que se instancian/////
+            int count = 0;
 			foreach (Transform side in go.transform) {
 
 				foreach (Transform irSensor in side){
@@ -89,10 +96,12 @@ public class IRSensorScript : MonoBehaviour {
 			else if ((this.transform.parent.tag == "LeftSide" || this.transform.parent.tag == "RightSide") && anchoBase > baseRobot.transform.localScale.x)
 				transform.Translate (0, 0, 0.0125F);
 
-			largoBase = baseRobot.transform.localScale.z;
-			anchoBase = baseRobot.transform.localScale.x;
+            escalaRobot = baseRobot.transform.parent.transform.localScale.x;
+            largoBase = baseRobot.transform.localScale.z;
+            anchoBase = baseRobot.transform.localScale.x;
+            scaleFactor = escalaRobot * largoBase / largoRealRobot;
 
-			if (posicionReal == false) {
+            if (posicionReal == false) {
 				isOk.SetActive (true);
 			} else {
 				isOk.SetActive (false);
@@ -102,7 +111,8 @@ public class IRSensorScript : MonoBehaviour {
 		
 
 	public float getDistanceSensor() {
-		return this.distanceSensor;
+        //Debug.Log(this.distanceSensor + " " + scaleFactor);
+		return this.distanceSensor * scaleFactor;
 	}
 
 	/*public float getPecision() {

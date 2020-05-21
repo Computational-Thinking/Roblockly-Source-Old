@@ -36,10 +36,15 @@ namespace UBlockly.UGUI
         [SerializeField] protected GameObject m_SavePanel;
         [SerializeField] protected InputField m_SaveNameInput;
         [SerializeField] protected Button m_SaveOkBtn;
+        [SerializeField] protected Button m_AutoSaveOkBtn;
 
         [SerializeField] protected GameObject m_LoadPanel;
         [SerializeField] protected RectTransform m_ScrollContent;
         [SerializeField] protected GameObject m_XmlBtnPrefab;
+
+        private GameObject autosave;
+
+        
 
         protected bool mIsSavePanelShow
         {
@@ -66,6 +71,7 @@ namespace UBlockly.UGUI
 
         private void Awake()
         {
+            autosave = GameObject.FindGameObjectWithTag("Autosave");
             HideSavePanel();
             HideLoadPanel();
 
@@ -80,8 +86,33 @@ namespace UBlockly.UGUI
                 if (!mIsLoadPanelShow) ShowLoadPanel();
                 else HideLoadPanel();
             });
-            
+
             m_SaveOkBtn.onClick.AddListener(SaveXml);
+            m_AutoSaveOkBtn.onClick.AddListener(AutoSaveXml);
+            
+            
+
+
+        }
+        private void Start()
+        {
+            //autoload if file exists
+            Debug.Log("autoload fuera");
+            if (autosave.GetComponent<AutosaveCounter>().load)
+            {
+                Debug.Log("hola");
+                BlocklyUI.WorkspaceView.CleanViews();
+
+                string path = System.IO.Path.Combine(GetSavePath(), "Autosave.xml");
+                string inputXml;
+
+                inputXml = System.IO.File.ReadAllText(path);
+
+                var dom = UBlockly.Xml.TextToDom(inputXml);
+                UBlockly.Xml.DomToWorkspace(dom, BlocklyUI.WorkspaceView.Workspace);
+                BlocklyUI.WorkspaceView.BuildViews();
+
+            }
         }
 
         protected virtual void ShowSavePanel()
@@ -135,6 +166,22 @@ namespace UBlockly.UGUI
             
             HideSavePanel();
         }
+        protected virtual void AutoSaveXml()
+        {
+            Debug.Log("autosave dentro");
+            autosave.GetComponent<AutosaveCounter>().load = true;
+            var dom = UBlockly.Xml.WorkspaceToDom(BlocklyUI.WorkspaceView.Workspace);
+            string text = UBlockly.Xml.DomToText(dom);
+            string path = GetSavePath();
+            path = System.IO.Path.Combine(path, "AutoSave.xml");
+
+            System.IO.File.WriteAllText(path, text);
+            
+            //HideSavePanel();
+        }
+
+       
+
 
         protected virtual void LoadXml(string fileName)
         {
@@ -162,5 +209,7 @@ namespace UBlockly.UGUI
             
             HideLoadPanel();
         }
+
+       
     }
 }

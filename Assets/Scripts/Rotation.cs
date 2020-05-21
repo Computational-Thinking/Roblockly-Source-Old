@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 
 // Available on CreationSq scene
 
@@ -9,7 +12,9 @@ public class Rotation : MonoBehaviour {
     float rotationValue = 2F;
     Transform robot_tr;	
 	Rigidbody robot_rb, wheel_r, wheel_l, wheel_c,robot_cp;
-
+    public bool rotationAllowed = true;
+    private bool rotateLeft = false, rotateRight = false;
+    private Button rightButton, leftButton;
 	void Start(){
 		
 		if (gameObject.name == "Robot_Esquema"){
@@ -19,8 +24,20 @@ public class Rotation : MonoBehaviour {
 			robot_tr.localEulerAngles = new Vector3(0,180,0);
 
 			robot_cp = gameObject.GetComponent<Rigidbody>();
-			robot_cp.constraints = RigidbodyConstraints.None;
-		}
+            gameObject.GetComponent<Swipe>().enabled = false;
+
+            robot_cp.constraints = RigidbodyConstraints.None;
+            leftButton = GameObject.FindGameObjectWithTag("LeftRotationButton").GetComponent<Button>();
+            rightButton = GameObject.FindGameObjectWithTag("RightRotationButton").GetComponent<Button>();
+            AddRightButtonEvents();
+            AddLeftButtonEvents();
+
+
+
+
+            //conectar los botones
+
+        }
 	}
     void OnEnable(){
 		
@@ -66,22 +83,99 @@ public class Rotation : MonoBehaviour {
 			main.depth = 1;
 		}
 	}
+    void AddRightButtonEvents()
+    {
+        EventTrigger eventTrigger = rightButton.gameObject.AddComponent<EventTrigger>();
 
-	void Update() {
-		//Fixed
+        EventTrigger.Entry pointerDownEntry = new EventTrigger.Entry();
+        pointerDownEntry.eventID = EventTriggerType.PointerDown;
+        pointerDownEntry.callback.AddListener((data) => { OnRightButtonDown((PointerEventData)data); });
+        eventTrigger.triggers.Add(pointerDownEntry);
 
+        EventTrigger.Entry pointerUpEntry = new EventTrigger.Entry();
+        pointerUpEntry.eventID = EventTriggerType.PointerUp;
+        pointerUpEntry.callback.AddListener((data) => { OnRightButtonUp((PointerEventData)data); });
+        eventTrigger.triggers.Add(pointerUpEntry);
+    }
+
+    public void OnRightButtonDown(PointerEventData data)
+    {
+        rotateRight = true;
+        rotateLeft = false;
+    }
+
+    public void OnRightButtonUp(PointerEventData data)
+    {
+        rotateRight = false;
+        rotateLeft = false;
+
+    }
+
+    void AddLeftButtonEvents()
+    {
+        EventTrigger eventTrigger = leftButton.gameObject.AddComponent<EventTrigger>();
+
+        EventTrigger.Entry pointerDownEntry = new EventTrigger.Entry();
+        pointerDownEntry.eventID = EventTriggerType.PointerDown;
+        pointerDownEntry.callback.AddListener((data) => { OnLeftButtonDown((PointerEventData)data); });
+        eventTrigger.triggers.Add(pointerDownEntry);
+
+        EventTrigger.Entry pointerUpEntry = new EventTrigger.Entry();
+        pointerUpEntry.eventID = EventTriggerType.PointerUp;
+        pointerUpEntry.callback.AddListener((data) => { OnLeftButtonUp((PointerEventData)data); });
+        eventTrigger.triggers.Add(pointerUpEntry);
+    }
+
+    public void OnLeftButtonDown(PointerEventData data)
+    {
+        rotateRight = false;
+        rotateLeft = true;
+
+        
+    }
+
+    public void OnLeftButtonUp(PointerEventData data)
+    {
+        rotateRight = false;
+        rotateLeft = false;
+
+    }
+
+    void Update() {
+        //Fixed
+        
 		if (main == null){
 			main = GameObject.Find("Robot Camera").GetComponent<Camera>();
-		}	
-
-		if (main.enabled && Input.GetKey (KeyCode.LeftArrow)) {
-			transform.Rotate (0, rotationValue, 0, Space.World);
 		}
+        if (rotationAllowed) {
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.Rotate(0, rotationValue, 0, Space.World);
+            }
 
-		if (main.enabled && Input.GetKey (KeyCode.RightArrow)) {
-			transform.Rotate (0, -rotationValue, 0, Space.World);
-		}
-	}
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.Rotate(0, -rotationValue, 0, Space.World);
+            }
+        }
+        if (gameObject.name == "Robot_Esquema")
+        {
+            if (rotateRight)
+                transform.Rotate(0, -rotationValue, 0, Space.World);
+            if (rotateLeft)
+                transform.Rotate(0, rotationValue, 0, Space.World);
+        }
+            /*
+            if (main.enabled && Input.GetKey (KeyCode.LeftArrow)) {
+                transform.Rotate (0, rotationValue, 0, Space.World);
+            }
+
+            if (main.enabled && Input.GetKey (KeyCode.RightArrow)) {
+                transform.Rotate (0, -rotationValue, 0, Space.World);
+            }
+            */
+
+        }
 
 	public void subirRobot(){
 		transform.Translate (0, 0.05F, 0);

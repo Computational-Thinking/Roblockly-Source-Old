@@ -27,7 +27,7 @@ public class IRSensorDetection : MonoBehaviour {
 	void Update () {
 		sensor = new Ray (transform.position, -transform.right);
 
-		Debug.DrawRay (transform.position, -transform.right, Color.green);
+		Debug.DrawLine (transform.position, transform.position - transform.right*irSensor.getDistanceSensor(), Color.red);
 
 		if (Physics.Raycast (sensor, out hit, irSensor.getDistanceSensor())) {
 
@@ -38,10 +38,16 @@ public class IRSensorDetection : MonoBehaviour {
 			Color color = obj.GetComponent<Renderer> ().material.GetColor ("_Color");
 			grayscale = color.grayscale;
 
-			if (grayscale <= 0.5)
-				oscuro = true;
-			else
-				oscuro = false;
+            if (grayscale <= 0.5)
+            {
+                this.GetComponent<Renderer>().material.color = Color.red;
+                oscuro = true;
+            }
+            else
+            {
+                this.GetComponent<Renderer>().material.color = Color.white;
+                oscuro = false;
+            }
 
 			//precisionEffect ();
 		}

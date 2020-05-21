@@ -26,8 +26,12 @@ public class CameraScript : MonoBehaviour {
 	public void BackSide(){
 
 		robot.transform.eulerAngles = new Vector3(0, 180, 0);
+        robot.GetComponent<Swipe>().rotationAllowed = false;
+        robot.GetComponent<Rotation>().rotationAllowed = false;
 
-		frontCamera.enabled = false;
+        
+
+        frontCamera.enabled = false;
 		mainCamera.enabled = false;
 		backCamera.enabled = true;
 		leftCamera.enabled = false;
@@ -37,20 +41,23 @@ public class CameraScript : MonoBehaviour {
 	}
 
 	public void FrontSide(){
-
-		robot.transform.eulerAngles = new Vector3(0, 180, 0);
-
-		frontCamera.enabled = true;
-		mainCamera.enabled = false;
-		backCamera.enabled = false;
-		leftCamera.enabled = false;
-		rightCamera.enabled = false;
-		topCamera.enabled = false;
+            robot.transform.eulerAngles = new Vector3(0, 180, 0);
+            robot.GetComponent<Swipe>().rotationAllowed = false;
+        robot.GetComponent<Rotation>().rotationAllowed = false;
+        frontCamera.enabled = true;
+            mainCamera.enabled = false;
+            backCamera.enabled = false;
+            leftCamera.enabled = false;
+            rightCamera.enabled = false;
+            topCamera.enabled = false;
+       
 
 	}
 
 	public void MainCamera(){
-		frontCamera.enabled = false;
+        robot.GetComponent<Swipe>().rotationAllowed = true;
+        robot.GetComponent<Rotation>().rotationAllowed = true;
+        frontCamera.enabled = false;
 		mainCamera.enabled = true;
 		backCamera.enabled = false;
 		leftCamera.enabled = false;
@@ -60,8 +67,9 @@ public class CameraScript : MonoBehaviour {
 	}
 
 	public void LeftCamera(){
-		
-		robot.transform.eulerAngles = new Vector3(0, 180, 0);
+        robot.GetComponent<Swipe>().rotationAllowed = false;
+        robot.GetComponent<Rotation>().rotationAllowed = false;
+        robot.transform.eulerAngles = new Vector3(0, 180, 0);
 
 		frontCamera.enabled = false;
 		mainCamera.enabled = false;
@@ -73,8 +81,9 @@ public class CameraScript : MonoBehaviour {
 	}
 
 	public void RightCamera(){
-
-		robot.transform.eulerAngles = new Vector3(0, 180, 0);
+        robot.GetComponent<Swipe>().rotationAllowed = false;
+        robot.GetComponent<Rotation>().rotationAllowed = false;
+        robot.transform.eulerAngles = new Vector3(0, 180, 0);
 
 		frontCamera.enabled = false;
 		mainCamera.enabled = false;
@@ -87,8 +96,9 @@ public class CameraScript : MonoBehaviour {
 	public void TopCamera(){
 
 		robot.transform.eulerAngles = new Vector3(0, 180, 0);
+        robot.GetComponent<Rotation>().rotationAllowed = false;
 
-		frontCamera.enabled = false;
+        frontCamera.enabled = false;
 		mainCamera.enabled = false;
 		backCamera.enabled = false;
 		leftCamera.enabled = false;

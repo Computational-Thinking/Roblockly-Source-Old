@@ -11,8 +11,14 @@ public class OptionsSensorFront : MonoBehaviour {
 	public CameraScript cameraScript;
 	private Camera camera;
 	private GameObject go;
+    private GameObject grid_pos;
+    private GameObject marked_go;
 
-	private LaserSensorScript laser;
+
+    private GameObject grid;
+
+
+    private LaserSensorScript laser;
 	private IRSensorScript ir;
 	private USSensorScript us;
 	private LidarScript lidar;
@@ -74,9 +80,30 @@ public class OptionsSensorFront : MonoBehaviour {
 			Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit)){
-				go = hit.transform.gameObject;
+				GameObject aux_hit = hit.transform.gameObject;
+                if (aux_hit.tag == "Grid")
+                {
+                    //if (aux_hit.GetComponent<GridOccupancy>().occupied == false)
+                        grid_pos = aux_hit;
+                    //else
+                    //    grid_pos = null;
+                }
+                else if (aux_hit.tag == "US" || aux_hit.tag == "Touch" || aux_hit.tag == "Laser" 
+                        || aux_hit.tag == "IR" || aux_hit.tag == "Lidar" || aux_hit.tag == "Onda")
+                {
+                    if (go != null && (go.tag == "US" || go.tag == "Touch" || go.tag == "Laser" || go.tag == "IR" || go.tag == "Lidar"))
+                    {
+                       
+                        text = GameObject.Find(go.name + "/Canvas/TextMeshPro Text").GetComponent<TextMeshProUGUI>();
+                        text.color = new Color(255, 255, 0, 255);
 
-				GameObject parent = go.transform.parent.gameObject;
+                    }
+                    go = aux_hit;
+                    grid = go.transform.parent.transform.Find("Grid").gameObject;
+                    
+                    grid.SetActive(true);
+                }
+                GameObject parent = go.transform.parent.gameObject;
 
 				print (go.name + " TAG: " + go.tag);
 
@@ -108,6 +135,7 @@ public class OptionsSensorFront : MonoBehaviour {
 				if (go.tag == "US" || go.tag == "Touch" || go.tag == "Laser" || go.tag == "IR" || go.tag == "Lidar"){
 					text = GameObject.Find(go.name + "/Canvas/TextMeshPro Text").GetComponent<TextMeshProUGUI>();
 					text.color = new Color(0,100,0,255);
+                    
 				}
 				// Debug.Log(go.name);
 
@@ -175,11 +203,33 @@ public class OptionsSensorFront : MonoBehaviour {
 					//menuBase.SetActive (false);
 				}
 
+                
+
 			}
 		}
 
 		if (go != null) {
-			if (go.tag == "IR") {
+            grid = go.transform.parent.transform.Find("Grid").gameObject;
+            if (grid_pos != null && !grid_pos.GetComponent<GridOccupancy>().occupied && (go.tag == "US" || go.tag == "Touch" || go.tag == "Laser" || go.tag == "IR" || go.tag == "Lidar"))
+            {
+                if (grid_pos.transform.parent.transform.parent.tag == "LeftSide"  || grid_pos.transform.parent.transform.parent.tag == "RightSide")
+                        go.transform.position = new Vector3(go.transform.position.x, grid_pos.transform.position.y, grid_pos.transform.position.z);
+                else
+                    go.transform.position = new Vector3(grid_pos.transform.position.x, grid_pos.transform.position.y, go.transform.position.z);
+                /*if (go.tag == "IR")
+                    go.transform.position = grid_pos.transform.position + new Vector3(0,0,0.02f);
+                else 
+                    go.transform.position = grid_pos.transform.position + new Vector3(0, 0, -0.01f);
+                */
+            }
+            /*if (go.tag == "US" || go.tag == "Touch" || go.tag == "Laser" || go.tag == "IR" || go.tag == "Lidar")
+            {
+                grid = go.transform.parent.transform.Find("Grid").gameObject;
+                //if (!grid.activeSelf)
+                //    grid.SetActive(true);
+            }
+            */
+            /*if (go.tag == "IR") {
 				if (Input.GetKey (KeyCode.W)) {
 					go.transform.Translate (0, 0.005F, 0);// position += new Vector3(0, 0.005F, 0);
 				}
@@ -229,6 +279,7 @@ public class OptionsSensorFront : MonoBehaviour {
 					go.transform.Translate (0, 0, -0.005F); // transform.position += new Vector3(0.005F, 0, 0);
 				}
 			} 
+            */
 		}
 	}
 
@@ -256,12 +307,24 @@ public class OptionsSensorFront : MonoBehaviour {
 			text.color = new Color(255,255,0,255);
 		}
 		go = null;
-	}
+        //grid.GetComponent<GridManager>().disable();
+        Debug.Log("Aceptar sensor");
+        grid.GetComponent<GridManager>().updateButtons();
+        grid.SetActive(false);
+    }
 
 
 	public void eliminarSensor(){
-		Destroy (go);
-	}
+
+        //Debug.Log("Inactive" + grid.transform.name);
+        go.GetComponent<FreeGridOnDestroy>().freeGrid();
+        Destroy (go);
+        go = null;
+        Debug.Log("Eliminar sensor");
+        grid.GetComponent<GridManager>().updateButtons();
+        grid.SetActive(false);
+
+    }
 
 
 	/* public void ModificarOnda() {

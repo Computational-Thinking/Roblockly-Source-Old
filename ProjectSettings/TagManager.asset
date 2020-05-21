@@ -30,6 +30,16 @@ TagManager:
   - accuslider
   - Suelo
   - ButtonMaxMin
+  - UBlocklyCanvas
+  - UBlocklyCam
+  - Grid
+  - Autosave
+  - RightRotationButton
+  - LeftRotationButton
+  - ButtonSensorFront
+  - ButtonSensorBack
+  - ButtonSensorLeft
+  - ButtonSensorRight
   layers:
   - Default
   - TransparentFX

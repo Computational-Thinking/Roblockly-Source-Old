@@ -608,6 +608,7 @@ GameObject:
   - component: {fileID: 135648623107097446}
   - component: {fileID: 136423856715393588}
   - component: {fileID: 54494968832984820}
+  - component: {fileID: 5303516356296502159}
   m_Layer: 0
   m_Name: SensorUS
   m_TagString: US
@@ -689,8 +690,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.34
-  m_Height: 1.4
+  m_Radius: 0.2
+  m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &54494968832984820
@@ -709,6 +710,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5303516356296502159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446119992541236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8148045792b66d0458fe8d109380102a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 0}
 --- !u!1 &1479221496124924
 GameObject:
   m_ObjectHideFlags: 0

@@ -65,8 +65,16 @@ public class CrearSensor : MonoBehaviour {
 
 	private TextMeshProUGUI text;
 
-	// Use this for initialization
-	void Start () {
+
+    // grids
+    private GameObject frontGrid;
+    private GameObject backGrid;
+    private GameObject leftGrid;
+    private GameObject rightGrid;
+
+
+    // Use this for initialization
+    void Start () {
 		placeTop = GameObject.Find("Permanente/Robot/TopSide/TopTransform").GetComponent<Transform>();
 		parentTop = GameObject.Find("Permanente/Robot/TopSide").GetComponent<Transform>();
 		
@@ -85,7 +93,13 @@ public class CrearSensor : MonoBehaviour {
 		parentRight = GameObject.Find("Permanente/Robot/RightSide").GetComponent<Transform>();
 		placeRight = GameObject.Find("Permanente/Robot/RightSide/RightTransform").GetComponent<Transform>();
 		placeRightIR = GameObject.Find("Permanente/Robot/RightSide/RightTransformIR").GetComponent<Transform>();
-	}
+
+        frontGrid = GameObject.Find("Permanente/Robot/FrontSide/Grid").GetComponent<Transform>().gameObject;
+        backGrid = GameObject.Find("Permanente/Robot/BackSide/Grid").GetComponent<Transform>().gameObject;
+        rightGrid = GameObject.Find("Permanente/Robot/RightSide/Grid").GetComponent<Transform>().gameObject;
+        leftGrid = GameObject.Find("Permanente/Robot/LeftSide/Grid").GetComponent<Transform>().gameObject;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {}
@@ -157,25 +171,41 @@ public class CrearSensor : MonoBehaviour {
 	 ***************************************************************************************/
 
 	public void crearIRFront() {
-		options.enabled = true;
 
-		GameObject irGO = (GameObject)Instantiate (irPrefab, placeFrontIR.position, placeFrontIR.rotation, parentFront);
-		options.setGo (irGO);
 
-		ir = (IRSensorScript) irGO.GetComponent (typeof(IRSensorScript));
-		options.setIRScript (ir);
+        //if (!frontGrid.GetComponent<GridManager>().full())
+        //{
+        frontGrid.SetActive(true);
 
-		text = GameObject.Find(ir.name + "/Canvas/TextMeshPro Text").GetComponent<TextMeshProUGUI>();
-		text.color = new Color(0,100,0,255);
+        Vector3 pos = frontGrid.GetComponent<GridManager>().nextFreePos();
 
-		menuAdd.SetActive (false);
-		menuConfigIR.SetActive (true);
-		// laser = (LaserSensorScript)laserGO.GetComponent (typeof(LaserSensorScript));
+            options.enabled = true;
+
+            //GameObject irGO = (GameObject)Instantiate(irPrefab, placeFrontIR.position, placeFrontIR.rotation, parentFront);
+
+            GameObject irGO = (GameObject)Instantiate(irPrefab, pos + new Vector3(0, 0, 0.013f), placeFrontIR.rotation, parentFront);
+            options.setGo(irGO);
+
+            ir = (IRSensorScript)irGO.GetComponent(typeof(IRSensorScript));
+            options.setIRScript(ir);
+
+            text = GameObject.Find(ir.name + "/Canvas/TextMeshPro Text").GetComponent<TextMeshProUGUI>();
+            text.color = new Color(0, 100, 0, 255);
+
+            menuAdd.SetActive(false);
+            menuConfigIR.SetActive(true);
+            //frontGrid.GetComponent<GridManager>().enable();
+            // laser = (LaserSensorScript)laserGO.GetComponent (typeof(LaserSensorScript));
+        //}
 	}
 
 
 	public void crearIRBack() {
-		GameObject irGO = (GameObject)Instantiate (irPrefab, placeBackIR.position, placeBackIR.rotation, parentBack);
+
+        backGrid.SetActive(true);
+        Vector3 pos = backGrid.GetComponent<GridManager>().nextFreePos();
+        GameObject irGO = (GameObject)Instantiate(irPrefab, pos + new Vector3(0, 0, -0.015f), placeBackIR.rotation, parentBack);
+        //GameObject irGO = (GameObject)Instantiate (irPrefab, placeBackIR.position, placeBackIR.rotation, parentBack);
 		options.setGo (irGO);
 
 		ir = (IRSensorScript) irGO.GetComponent (typeof(IRSensorScript));
@@ -187,11 +217,15 @@ public class CrearSensor : MonoBehaviour {
 
 		menuAdd.SetActive (false);
 		menuConfigIR.SetActive (true);
-	}
+        //backGrid.GetComponent<GridManager>().enable();
+    }
 
 
 	public void crearIRLeft() {
-		GameObject irGO = (GameObject)Instantiate (irPrefab, placeLeftIR.position, placeLeftIR.rotation, parentLeft);
+        leftGrid.SetActive(true);
+        Vector3 pos = leftGrid.GetComponent<GridManager>().nextFreePos();
+        GameObject irGO = (GameObject)Instantiate(irPrefab, pos + new Vector3(-0.013f, 0.0f, 0.0f), placeLeftIR.rotation, parentLeft);
+        //GameObject irGO = (GameObject)Instantiate (irPrefab, placeLeftIR.position, placeLeftIR.rotation, parentLeft);
 		options.setGo (irGO);
 
 		ir = (IRSensorScript) irGO.GetComponent (typeof(IRSensorScript));
@@ -203,12 +237,17 @@ public class CrearSensor : MonoBehaviour {
 
 		menuAdd.SetActive (false);
 		menuConfigIR.SetActive (true);
-	}
+        //leftGrid.GetComponent<GridManager>().enable();
+    }
 
 
 
 	public void crearIRRight() {
-		GameObject irGO = (GameObject)Instantiate (irPrefab, placeRightIR.position, placeRightIR.rotation, parentRight);
+        rightGrid.SetActive(true);
+        Vector3 pos = rightGrid.GetComponent<GridManager>().nextFreePos();
+        GameObject irGO = (GameObject)Instantiate(irPrefab, pos + new Vector3(0.015f, 0.0f, 0.0f), placeRightIR.rotation, parentRight);
+
+        //GameObject irGO = (GameObject)Instantiate (irPrefab, placeRightIR.position, placeRightIR.rotation, parentRight);
 		options.setGo (irGO);
 
 		ir = (IRSensorScript) irGO.GetComponent (typeof(IRSensorScript));
@@ -220,7 +259,8 @@ public class CrearSensor : MonoBehaviour {
 
 		menuAdd.SetActive (false);
 		menuConfigIR.SetActive (true);
-	}
+        //rightGrid.GetComponent<GridManager>().enable();
+    }
 
 
 	/****************************************************************************************
@@ -228,7 +268,11 @@ public class CrearSensor : MonoBehaviour {
 	 ***************************************************************************************/
 
 	public void crearUSFront() {
-		GameObject usGO = (GameObject)Instantiate (usPrefab, placeFront.position, placeFront.rotation, parentFront);
+        frontGrid.SetActive(true);
+        Vector3 pos = frontGrid.GetComponent<GridManager>().nextFreePos();
+        GameObject usGO = (GameObject)Instantiate(usPrefab, pos + new Vector3(0, 0, -0.01f), placeFront.rotation, parentFront);
+
+        //GameObject usGO = (GameObject)Instantiate (usPrefab, placeFront.position, placeFront.rotation, parentFront);
 		options.setGo (usGO);
 
 		us = (USSensorScript) usGO.GetComponent (typeof(USSensorScript));
@@ -240,11 +284,16 @@ public class CrearSensor : MonoBehaviour {
 
 		menuAdd.SetActive (false);
 		menuConfigUS.SetActive (true);
-	}
+        //frontGrid.GetComponent<GridManager>().enable();
+    }
 
 
 	public void crearUSBack() {
-		GameObject usGO = (GameObject)Instantiate (usPrefab, placeBack.position, placeBack.rotation, parentBack);
+        backGrid.SetActive(true);
+        Vector3 pos = backGrid.GetComponent<GridManager>().nextFreePos();
+        GameObject usGO = (GameObject)Instantiate(usPrefab, pos + new Vector3(0, 0, 0.01f), placeBack.rotation, parentBack);
+
+        //GameObject usGO = (GameObject)Instantiate (usPrefab, placeBack.position, placeBack.rotation, parentBack);
 		options.setGo (usGO);
 
 		us = (USSensorScript) usGO.GetComponent (typeof(USSensorScript));
@@ -256,11 +305,16 @@ public class CrearSensor : MonoBehaviour {
 
 		menuAdd.SetActive (false);
 		menuConfigUS.SetActive (true);
-	}
+        //backGrid.GetComponent<GridManager>().enable();
+    }
 
 
 	public void crearUSLeft() {
-		GameObject usGO = (GameObject)Instantiate (usPrefab, placeLeft.position, placeLeft.rotation, parentLeft);
+        leftGrid.SetActive(true);
+        Vector3 pos = leftGrid.GetComponent<GridManager>().nextFreePos();
+        GameObject usGO = (GameObject)Instantiate(usPrefab, pos + new Vector3(0.01f, 0, 0.0f), placeLeft.rotation, parentLeft);
+
+        //GameObject usGO = (GameObject)Instantiate (usPrefab, placeLeft.position, placeLeft.rotation, parentLeft);
 		options.setGo (usGO);
 
 		us = (USSensorScript) usGO.GetComponent (typeof(USSensorScript));
@@ -272,11 +326,16 @@ public class CrearSensor : MonoBehaviour {
 
 		menuAdd.SetActive (false);
 		menuConfigUS.SetActive (true);
-	}
+        //leftGrid.GetComponent<GridManager>().enable();
+    }
 
 
 	public void crearUSRight() {
-		GameObject usGO = (GameObject)Instantiate (usPrefab, placeRight.position, placeRight.rotation, parentRight);
+        rightGrid.SetActive(true);
+        Vector3 pos = rightGrid.GetComponent<GridManager>().nextFreePos();
+        GameObject usGO = (GameObject)Instantiate(usPrefab, pos + new Vector3(-0.010f, 0, 0.0f), placeRight.rotation, parentRight);
+
+        //GameObject usGO = (GameObject)Instantiate (usPrefab, placeRight.position, placeRight.rotation, parentRight);
 		options.setGo (usGO);
 
 		us = (USSensorScript) usGO.GetComponent (typeof(USSensorScript));
@@ -288,7 +347,8 @@ public class CrearSensor : MonoBehaviour {
 
 		menuAdd.SetActive (false);
 		menuConfigUS.SetActive (true);
-	}
+        //rightGrid.GetComponent<GridManager>().enable();
+    }
 
 
 
@@ -297,7 +357,11 @@ public class CrearSensor : MonoBehaviour {
 	 ***************************************************************************************/
 
 	public void crearTouchFront() {
-		GameObject touchGO = (GameObject)Instantiate (touchPrefab, placeFront.position, placeFront.rotation, parentFront);
+        frontGrid.SetActive(true);
+        Vector3 pos = frontGrid.GetComponent<GridManager>().nextFreePos();
+        GameObject touchGO = (GameObject)Instantiate(touchPrefab, pos + new Vector3(0, 0, -0.01f), placeFront.rotation, parentFront);
+
+        //GameObject touchGO = (GameObject)Instantiate (touchPrefab, placeFront.position, placeFront.rotation, parentFront);
 		options.setGo (touchGO);
 		
 		touch = (TouchSensorScript) touchGO.GetComponent (typeof(TouchSensorScript));
@@ -308,12 +372,16 @@ public class CrearSensor : MonoBehaviour {
 
 		menuAdd.SetActive (false);
 		menuConfigTouch.SetActive (true);
-
-	}
+        //frontGrid.GetComponent<GridManager>().enable();
+    }
 
 
 	public void crearTouchBack() {
-		GameObject touchGO = (GameObject)Instantiate (touchPrefab, placeBack.position, placeBack.rotation, parentBack);
+        backGrid.SetActive(true);
+        Vector3 pos = backGrid.GetComponent<GridManager>().nextFreePos();
+        GameObject touchGO = (GameObject)Instantiate(touchPrefab, pos + new Vector3(0, 0, 0.01f), placeBack.rotation, parentBack);
+
+        //GameObject touchGO = (GameObject)Instantiate (touchPrefab, placeBack.position, placeBack.rotation, parentBack);
 		options.setGo (touchGO);
 		
 		touch = (TouchSensorScript) touchGO.GetComponent (typeof(TouchSensorScript));
@@ -324,7 +392,8 @@ public class CrearSensor : MonoBehaviour {
 
 		menuAdd.SetActive (false);
 		menuConfigTouch.SetActive (true);
-	}
+        //backGrid.GetComponent<GridManager>().enable();
+    }
 
 
 	/****************************************************************************************

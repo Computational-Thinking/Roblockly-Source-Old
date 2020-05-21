@@ -6,6 +6,7 @@ using UnityEngine;
 public class RobotScriptsController : MonoBehaviour //Activa y desactiva los scripts asociados a Robot
 {
     Rotation rotationCS,rotationCSsq;
+    Swipe swipeCS,swipeCSsq;
     RobotCollider rcolliderCS,rcolliderCSsq;
     RobotScriptsController rscriptCTLRsq;
     Wheel wheel_r,wheel_l,wheel_c;
@@ -17,6 +18,7 @@ public class RobotScriptsController : MonoBehaviour //Activa y desactiva los scr
         wheel_l = GameObject.Find("Permanente/Robot/ThreeWheels/Wheel Left").GetComponent<Wheel>();
         wheel_c = GameObject.Find("Permanente/Robot/ThreeWheels/WheelCenter").GetComponent<Wheel>();
         rotationCS = gameObject.GetComponent<Rotation>();
+        swipeCS = gameObject.GetComponent<Swipe>();
         rcolliderCS = gameObject.GetComponent<RobotCollider>();
         camara = GameObject.Find("/Permanente/Robot/BaseSq/Robot Camera").GetComponent<Camera>();      
         Debug.Log(camara);
@@ -30,12 +32,17 @@ public class RobotScriptsController : MonoBehaviour //Activa y desactiva los scr
                 temp.name  = "Robot_Esquema";
                 rscriptCTLRsq = temp.GetComponent<RobotScriptsController>();
                 rotationCSsq = temp.GetComponent<Rotation>();
+                swipeCSsq = temp.GetComponent<Swipe>();
                 rcolliderCSsq = temp.GetComponent<RobotCollider>();
+
                 rscriptCTLRsq.enabled = false;
                 rotationCSsq.enabled = true;
+                swipeCSsq.enabled = true;
                 rcolliderCSsq.enabled = false;
             }
             rotationCS.enabled = false;
+            swipeCS.enabled = false;
+
             rcolliderCS.enabled = true;
             wheel_r.enabled = false;
             wheel_l.enabled = false;
@@ -47,6 +54,8 @@ public class RobotScriptsController : MonoBehaviour //Activa y desactiva los scr
         }  
         if (SceneManager.GetActiveScene().name == "CreationSq"){
             rotationCS.enabled = true;
+            
+            swipeCS.enabled = true;
             rcolliderCS.enabled = false;
             wheel_r.enabled = true;
             wheel_l.enabled = true;
