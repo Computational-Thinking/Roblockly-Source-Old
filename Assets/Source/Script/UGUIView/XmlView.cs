@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 
 Copyright 2016 sophieml1989@gmail.com
 
@@ -100,15 +100,16 @@ namespace UBlockly.UGUI
             Debug.Log("autoload fuera");
             if (autosave.GetComponent<AutosaveCounter>().load)
             {
-                Debug.Log("hola");
+                
                 BlocklyUI.WorkspaceView.CleanViews();
 
-                string path = System.IO.Path.Combine(GetSavePath(), "Autosave.xml");
-                string inputXml;
+                //string path = System.IO.Path.Combine(GetSavePath(), "Autosave.xml");
+                //string inputXml;
 
-                inputXml = System.IO.File.ReadAllText(path);
+                //inputXml = System.IO.File.ReadAllText(path);
 
-                var dom = UBlockly.Xml.TextToDom(inputXml);
+                //var dom = UBlockly.Xml.TextToDom(inputXml);
+                var dom = autosave.GetComponent<AutosaveCounter>().dom;
                 UBlockly.Xml.DomToWorkspace(dom, BlocklyUI.WorkspaceView.Workspace);
                 BlocklyUI.WorkspaceView.BuildViews();
 
@@ -171,12 +172,13 @@ namespace UBlockly.UGUI
             Debug.Log("autosave dentro");
             autosave.GetComponent<AutosaveCounter>().load = true;
             var dom = UBlockly.Xml.WorkspaceToDom(BlocklyUI.WorkspaceView.Workspace);
-            string text = UBlockly.Xml.DomToText(dom);
-            string path = GetSavePath();
-            path = System.IO.Path.Combine(path, "AutoSave.xml");
+            autosave.GetComponent<AutosaveCounter>().dom = dom;
+            //string text = UBlockly.Xml.DomToText(dom);
+            //string path = GetSavePath();
+            //path = System.IO.Path.Combine(path, "AutoSave.xml");
 
-            System.IO.File.WriteAllText(path, text);
-            
+            //System.IO.File.WriteAllText(path, text);
+
             //HideSavePanel();
         }
 

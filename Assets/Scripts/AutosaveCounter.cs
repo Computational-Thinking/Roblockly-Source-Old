@@ -1,10 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AutosaveCounter : MonoBehaviour
 {
     public bool load = false;
+    public System.Xml.XmlNode dom;
     // Start is called before the first frame update
     void Start()
     {
